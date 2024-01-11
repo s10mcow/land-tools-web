@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, SyntheticEvent, useState } from "react";
 import {
   TextField,
   Button,
@@ -14,25 +14,36 @@ import {
 import { saveAs } from "file-saver";
 
 function UploadForm() {
-  const [comps, setComps] = useState({ median: undefined, average: undefined });
-  const [upperPercent, setUpperPercent] = useState(undefined);
-  const [lowerPercent, setLowerPercent] = useState(undefined);
+  const [median, setMedian] = useState<number | undefined>(undefined);
+  const [average, setAverage] = useState<number | undefined>(undefined);
+  const [upperPercent, setUpperPercent] = useState<number | undefined>(
+    undefined,
+  );
+  const [lowerPercent, setLowerPercent] = useState<number | undefined>(
+    undefined,
+  );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [checked, setChecked] = useState(false);
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
 
-    if (!selectedFile) {
+    if (
+      !selectedFile ||
+      !median ||
+      !average ||
+      !upperPercent ||
+      !lowerPercent
+    ) {
       alert("Please select a file first!");
       return;
     }
 
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.append("comps", JSON.stringify(comps));
+    formData.append("comps", JSON.stringify({ median, average }));
     formData.append("upperPercent", upperPercent?.toString());
     formData.append("lowerPercent", lowerPercent?.toString());
 
@@ -93,8 +104,8 @@ function UploadForm() {
         label="Median Price Comparables"
         type="number"
         autoFocus
-        value={comps.median}
-        onChange={(e) => setComps({ ...comps, median: Number(e.target.value) })}
+        value={median}
+        onChange={(e) => setMedian(Number(e.target.value))}
       />
       <TextField
         margin="normal"
@@ -102,10 +113,8 @@ function UploadForm() {
         fullWidth
         label="Average Price Comparables"
         type="number"
-        value={comps.average}
-        onChange={(e) =>
-          setComps({ ...comps, average: Number(e.target.value) })
-        }
+        value={average}
+        onChange={(e) => setAverage(Number(e.target.value))}
       />
       <TextField
         margin="normal"
