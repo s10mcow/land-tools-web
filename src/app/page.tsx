@@ -13,10 +13,9 @@ export default function Home() {
         style={{ minHeight: "100vh" }}
       >
         <Typography variant="h2" align="center" sx={{ mb: 2 }}>
-        XLSX -> CSV
+          {"XLSX -> CSV"}
         </Typography>
         <Typography>Add your comps and the upper and lower percent</Typography>
-
 
         <Grid xs={12} md={6} item>
           <UploadForm />
