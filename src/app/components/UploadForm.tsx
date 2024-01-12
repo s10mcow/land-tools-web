@@ -48,10 +48,13 @@ function UploadForm() {
     formData.append("lowerPercent", lowerPercent?.toString());
 
     try {
-      const response = await fetch("http://localhost:3001/process-excel", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/process-excel",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
