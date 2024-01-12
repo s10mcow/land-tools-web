@@ -49,7 +49,8 @@ function UploadForm() {
 
     try {
       const response = await fetch(
-        "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/process-excel",
+        "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/xlsx/process",
+        //"http://localhost:1337/xlsx/process",
         {
           method: "POST",
           body: formData,
@@ -64,7 +65,7 @@ function UploadForm() {
       const goodBlob = new Blob([result.goodOffers], {
         type: "text/csv;charset=utf-8",
       });
-      saveAs(goodBlob, "goodOffers.csv");
+      saveAs(goodBlob, "Offers.csv");
 
       // Handle the response data here
     } catch (error) {
@@ -82,24 +83,24 @@ function UploadForm() {
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={checked}
-            onChange={handleChange}
-            name="splitFiles"
-            color="primary"
-          />
-        }
-        label="Split Files into good and bad offers"
-      />
-      <Grid xs={6}>
-        <Typography variant="caption">
-          Check the box if you want to split into 2 csv files based on your
-          offer and the last purchase price - if your offer is lower than the
-          last purchase price, it will be in the bad offers file.
-        </Typography>
-      </Grid>
+      {/*<FormControlLabel*/}
+      {/*  control={*/}
+      {/*    <Checkbox*/}
+      {/*      checked={checked}*/}
+      {/*      onChange={handleChange}*/}
+      {/*      name="splitFiles"*/}
+      {/*      color="primary"*/}
+      {/*    />*/}
+      {/*  }*/}
+      {/*  label="Split Files into good and bad offers"*/}
+      {/*/>*/}
+      {/*<Grid xs={6}>*/}
+      {/*  <Typography variant="caption">*/}
+      {/*    Check the box if you want to split into 2 csv files based on your*/}
+      {/*    offer and the last purchase price - if your offer is lower than the*/}
+      {/*    last purchase price, it will be in the bad offers file.*/}
+      {/*  </Typography>*/}
+      {/*</Grid>*/}
       <TextField
         margin="normal"
         required
@@ -162,7 +163,7 @@ function UploadForm() {
       <Divider />
 
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-        Submit
+        Get Offers
       </Button>
     </Box>
   );
