@@ -1,5 +1,5 @@
 import UploadForm from "./components/UploadForm";
-import { Container, Grid, Typography } from "@mui/material";
+import { Container, Grid, Link, Typography } from "@mui/material";
 
 export default function Home() {
   return (
@@ -20,6 +20,12 @@ export default function Home() {
         <Grid xs={12} md={6} item>
           <UploadForm />
         </Grid>
+
+        {/*<Grid>*/}
+        {/*  <Link href="/comps">*/}
+        {/*    <a>Need Comps? Try this...</a>*/}
+        {/*  </Link>*/}
+        {/*</Grid>*/}
       </Grid>
     </Container>
   );

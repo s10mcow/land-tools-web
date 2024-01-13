@@ -5,6 +5,8 @@ import {
   Button,
   Container,
   Grid,
+  Link,
+  Paper,
   TextField,
   Typography,
 } from "@mui/material";
@@ -49,6 +51,12 @@ export default function Comps() {
 
   return (
     <Container style={{ height: "100vh" }}>
+      <Typography>Example Url below:</Typography>
+      <Paper>
+        <Typography>
+          https://www.redfin.com/stingray/api/gis?al=3&include_nearby_homes=true&market=jacksonville&min_parcel_size=10890&num_homes=350&ord=redfin-recommended-asc&page_number=1&poly=-81.35977%2029.36248%2C-81.1524%2029.36248%2C-81.1524%2029.69257%2C-81.35977%2029.69257%2C-81.35977%2029.36248&region_id=14046&region_type=6&sold_within_days=90&start=0&status=9&uipt=5&v=8&zoomLevel=12
+        </Typography>
+      </Paper>
       <Grid
         container
         spacing={0}
