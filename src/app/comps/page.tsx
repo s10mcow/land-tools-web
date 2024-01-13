@@ -58,7 +58,7 @@ export default function Comps() {
         style={{ minHeight: "100vh" }}
       >
         <Typography variant="h2" align="center" sx={{ mb: 2 }}>
-          {"URL -> CSV"}
+          {"Redfin URL -> CSV"}
         </Typography>
 
         <Grid xs={12} md={6} item>

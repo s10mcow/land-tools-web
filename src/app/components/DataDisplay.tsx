@@ -1,7 +1,19 @@
 import React from "react";
-import { Card, CardContent, Typography, Grid } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Grid,
+  Paper,
+  Link,
+} from "@mui/material";
 
-const DataDisplay = ({ lotSizeData, medianPricePerSqFoot, priceData }) => {
+const DataDisplay = ({
+  lotSizeData,
+  medianPricePerSqFoot,
+  priceData,
+  mostActiveAgents,
+}) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -59,6 +71,22 @@ const DataDisplay = ({ lotSizeData, medianPricePerSqFoot, priceData }) => {
             </Typography>
           </CardContent>
         </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="h5" component="div">
+          Most Active Agents
+        </Typography>
+        {mostActiveAgents.map((agent) => (
+          <Grid item xs={12} sm={6} md={4} key={agent[0]}>
+            <Paper elevation={3} sx={{ padding: 2 }}>
+              <Typography variant="h6">{agent[0]}</Typography>
+              <Typography variant="body1">Listings: {agent[1]}</Typography>
+              <Link href={agent[2]} target="_blank" rel="noopener noreferrer">
+                View Listing
+              </Link>
+            </Paper>
+          </Grid>
+        ))}
       </Grid>
     </Grid>
   );
