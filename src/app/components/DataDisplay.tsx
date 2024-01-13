@@ -8,12 +8,31 @@ import {
   Link,
 } from "@mui/material";
 
+export interface DataDisplayProps {
+  lotSizeData: {
+    max: number;
+    mean: number;
+    median: number;
+    min: number;
+    stdDev: number;
+  };
+  medianPricePerSqFoot: number;
+  priceData: {
+    max: number;
+    mean: number;
+    median: number;
+    min: number;
+    stdDev: number;
+  };
+  mostActiveAgents: Array<[string, number, string]>;
+}
+
 const DataDisplay = ({
   lotSizeData,
   medianPricePerSqFoot,
   priceData,
   mostActiveAgents,
-}) => {
+}: DataDisplayProps) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>

@@ -10,11 +10,11 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { saveAs } from "file-saver";
-import DataDisplay from "@/app/components/DataDisplay";
+import DataDisplay, { DataDisplayProps } from "@/app/components/DataDisplay";
 
 export default function Comps() {
   const [url, setUrl] = useState<string>("");
-  const [data, setData] = useState<Record<string, {}> | null>(null);
+  const [data, setData] = useState<DataDisplayProps | null>(null);
   async function handleSubmit(event) {
     setData(null);
     event.preventDefault();
