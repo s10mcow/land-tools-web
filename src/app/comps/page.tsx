@@ -22,7 +22,7 @@ export default function Comps() {
     event.preventDefault();
     try {
       const response = await fetch(
-        // "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/comps/genrate",
+        // "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/comps/generate",
         "http://localhost:1337/comps/generate",
         {
           method: "POST",
@@ -42,7 +42,7 @@ export default function Comps() {
         type: "text/csv;charset=utf-8",
       });
       saveAs(blob, "comps.csv");
-      console.log(result.data);
+      console.log(result.data.homes);
       setData(result.data);
     } catch (err) {
       console.log(err);

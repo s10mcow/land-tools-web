@@ -15,6 +15,7 @@ export interface DataDisplayProps {
     median: number;
     min: number;
     stdDev: number;
+    midMean: number;
   };
   medianPricePerSqFoot: number;
   priceData: {
@@ -23,6 +24,7 @@ export interface DataDisplayProps {
     median: number;
     min: number;
     stdDev: number;
+    midMean: number;
   };
   mostActiveAgents: Array<[string, number, string]>;
 }
@@ -49,6 +51,9 @@ const DataDisplay = ({
             </Typography>
             <Typography color="textSecondary">
               Median: {lotSizeData.median}
+            </Typography>
+            <Typography color="textSecondary">
+              MidMean: {lotSizeData.midMean}
             </Typography>
             <Typography color="textSecondary">
               Min: {lotSizeData.min}
@@ -83,6 +88,9 @@ const DataDisplay = ({
             </Typography>
             <Typography color="textSecondary">
               Median: {priceData.median}
+            </Typography>
+            <Typography color="textSecondary">
+              MidMean: {priceData.midMean}
             </Typography>
             <Typography color="textSecondary">Min: {priceData.min}</Typography>
             <Typography color="textSecondary">

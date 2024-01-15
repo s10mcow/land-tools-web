@@ -14,8 +14,8 @@ import {
 import { saveAs } from "file-saver";
 
 function UploadForm() {
-  const [median, setMedian] = useState<number | undefined>(undefined);
-  const [average, setAverage] = useState<number | undefined>(undefined);
+  const [refId, setRefId] = useState<string>("");
+  const [comp, setComp] = useState<number | undefined>(undefined);
   const [upperPercent, setUpperPercent] = useState<number | undefined>(
     undefined,
   );
@@ -30,27 +30,22 @@ function UploadForm() {
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
 
-    if (
-      !selectedFile ||
-      !median ||
-      !average ||
-      !upperPercent ||
-      !lowerPercent
-    ) {
+    if (!selectedFile || !comp || !upperPercent || !lowerPercent || !refId) {
       alert("Please select a file first!");
       return;
     }
 
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.append("comps", JSON.stringify({ median, average }));
+    formData.append("comps", comp?.toString());
     formData.append("upperPercent", upperPercent?.toString());
     formData.append("lowerPercent", lowerPercent?.toString());
+    formData.append("refId", refId?.toString());
 
     try {
       const response = await fetch(
-        "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/xlsx/process",
-        //"http://localhost:1337/xlsx/process",
+        // "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/xlsx/process",
+        "http://localhost:1337/xlsx/process",
         {
           method: "POST",
           body: formData,
@@ -62,10 +57,15 @@ function UploadForm() {
       }
 
       const result = await response.json();
-      const goodBlob = new Blob([result.goodOffers], {
+      const usBlob = new Blob([result.usOffers], {
         type: "text/csv;charset=utf-8",
       });
-      saveAs(goodBlob, "Offers.csv");
+      saveAs(usBlob, "US-Offers.csv");
+
+      const nonBlob = new Blob([result.nonUsOffers], {
+        type: "text/csv;charset=utf-8",
+      });
+      saveAs(nonBlob, "Non-US-Offers.csv");
 
       // Handle the response data here
     } catch (error) {
@@ -105,21 +105,13 @@ function UploadForm() {
         margin="normal"
         required
         fullWidth
-        label="Median Price Comparables"
+        label="Price Comparable"
         type="number"
         autoFocus
-        value={median}
-        onChange={(e) => setMedian(Number(e.target.value))}
+        value={comp}
+        onChange={(e) => setComp(Number(e.target.value))}
       />
-      <TextField
-        margin="normal"
-        required
-        fullWidth
-        label="Average Price Comparables"
-        type="number"
-        value={average}
-        onChange={(e) => setAverage(Number(e.target.value))}
-      />
+
       <TextField
         margin="normal"
         required
@@ -137,6 +129,15 @@ function UploadForm() {
         type="number"
         value={lowerPercent}
         onChange={(e) => setLowerPercent(Number(e.target.value))}
+      />
+      <TextField
+        margin="normal"
+        required
+        fullWidth
+        label="Reference Id for mailer"
+        type="text"
+        value={refId}
+        onChange={(e) => setRefId(e.target.value)}
       />
       <input
         accept=".xlsx, .xls"
@@ -156,12 +157,10 @@ function UploadForm() {
           Upload File
         </Button>
       </label>
-
       {selectedFile && (
         <Typography variant="caption">Filname: {selectedFile?.name}</Typography>
       )}
       <Divider />
-
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
         Get Offers
       </Button>
