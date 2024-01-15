@@ -36,12 +36,12 @@ export default function Page() {
                 developer tools
               </a>{" "}
               (Typically right the Redfin logo in the top left corner and select
-              "Inspect" or "Inspect Element")
+              {"Inspect"} or {"Inspect Element"})
             </Typography>
 
             <Typography>
               3. The devtools will then be open. On the top bar click on the
-              "Network" tab
+              {"Network"} tab
             </Typography>
 
             <Typography>
@@ -50,7 +50,7 @@ export default function Page() {
             </Typography>
 
             <Typography>
-              5. In the search bar enter: "www.redfin.com/stingray/api/gis?al"
+              5. In the search bar enter: {"www.redfin.com/stingray/api/gis?al"}
               and hit the enter key. If it doesnt show up drag the map a little
               to invoke another search and then try again, but pushing the
               circular arrow.
