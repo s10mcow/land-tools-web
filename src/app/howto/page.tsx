@@ -18,12 +18,13 @@ export default function Page() {
             <Typography>
               1. Go to{" "}
               <a
-                href="https://www.redfin.com/city/23728/FL/Lehigh-Acres"
+                href="https://www.redfin.com/city/23728/FL/Lehigh-Acres/filter/include=sold-3mo,viewport=26.77208:26.43287:-81.53875:-81.78422"
                 target={"_blank"}
               >
                 Redfin (Leigh Acres is the example)
               </a>{" "}
-              and search for your comps
+              and search for your comps by drawing on a region. If the region is
+              too large Redfin doesnt return us the data we are looking for.
             </Typography>
 
             <Typography>
@@ -34,11 +35,14 @@ export default function Page() {
               >
                 developer tools
               </a>{" "}
-              (Typically right click and select "Inspect" or "Inspect Element",
-              just dont right click on the map)
+              (Typically right the Redfin logo in the top left corner and select
+              "Inspect" or "Inspect Element")
             </Typography>
 
-            <Typography>3. Click on the "Network" tab</Typography>
+            <Typography>
+              3. The devtools will then be open. On the top bar click on the
+              "Network" tab
+            </Typography>
 
             <Typography>
               4. Command + F (Mac) or Ctrl + F (Windows) to find a url on the
@@ -47,6 +51,9 @@ export default function Page() {
 
             <Typography>
               5. In the search bar enter: "www.redfin.com/stingray/api/gis?al"
+              and hit the enter key. If it doesnt show up drag the map a little
+              to invoke another search and then try again, but pushing the
+              circular arrow.
             </Typography>
 
             <Typography>
@@ -63,7 +70,9 @@ export default function Page() {
               9. Paste the JSON response into the text box
             </Typography>
 
-            <Link href={"/comps"}>Try it out!</Link>
+            <Typography>
+              10. <Link href={"/comps"}>Try it out!</Link>
+            </Typography>
           </Grid>
         </Grid>
       </Container>
