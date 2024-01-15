@@ -14,7 +14,7 @@ import { useState } from "react";
 import { saveAs } from "file-saver";
 import DataDisplay, { DataDisplayProps } from "@/components/DataDisplay";
 import Layout from "@/components/Layout";
-
+("www.redfin.com/stingray/api/gis?al");
 export default function Comps() {
   const [url, setUrl] = useState<string>("");
   const [data, setData] = useState<DataDisplayProps | null>(null);

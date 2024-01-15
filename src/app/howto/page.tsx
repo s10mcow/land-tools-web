@@ -15,6 +15,18 @@ export default function Page() {
           style={{ minHeight: "100vh" }}
         >
           <Grid xs={12}>
+            <Typography variant="h2" align="center" sx={{ mb: 2 }}>
+              {"How to get comps"}
+            </Typography>
+            <Typography>
+              Youtube video:{" "}
+              <a
+                href="https://www.youtube.com/watch?v=2rDfqGNCxho"
+                target={"_blank"}
+              >
+                Youtube Video Walkthrough
+              </a>
+            </Typography>
             <Typography>
               1. Go to{" "}
               <a
