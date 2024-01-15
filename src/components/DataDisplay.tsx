@@ -6,7 +6,10 @@ import {
   Grid,
   Paper,
   Link,
+  Box,
+  Button,
 } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 export interface DataDisplayProps {
   lotSizeData: {
@@ -29,15 +32,65 @@ export interface DataDisplayProps {
   mostActiveAgents: Array<[string, number, string]>;
 }
 
+function formatPrice(price: number): string {
+  return `$${price.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+}
+
 const DataDisplay = ({
   lotSizeData,
   medianPricePerSqFoot,
   priceData,
   mostActiveAgents,
 }: DataDisplayProps) => {
+  const router = useRouter();
+
+  const handleUseAsComp = (value) => {
+    // Modify the URL as needed, e.g., /new-page?value=value
+    router.push(`/csv/${value}`);
+  };
+
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      {/* Price Data */}
+      <Grid item xs={12} sm={6}>
+        <Card>
+          <CardContent>
+            <Typography variant="h5" component="div">
+              Price Data
+            </Typography>
+            <Typography color="textSecondary">
+              Max: {formatPrice(priceData.max)}
+            </Typography>
+            <Typography color="textSecondary">
+              Mean: {formatPrice(priceData.mean)}
+            </Typography>
+            <Typography color="textSecondary">
+              Median: {formatPrice(priceData.median)}
+            </Typography>
+            <Typography color="textSecondary">
+              MidMean: {formatPrice(priceData.midMean)}
+              <Button
+                variant="outlined"
+                onClick={() => handleUseAsComp(priceData.midMean)}
+              >
+                Use as Comp
+              </Button>
+            </Typography>
+            <Typography color="textSecondary">
+              Min: {formatPrice(priceData.min)}
+            </Typography>
+            <Typography color="textSecondary">
+              Standard Deviation: {formatPrice(priceData.stdDev)}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      {/* Lot Size Data */}
+      <Grid item xs={12} sm={6}>
         <Card>
           <CardContent>
             <Typography variant="h5" component="div">
@@ -64,7 +117,9 @@ const DataDisplay = ({
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12}>
+
+      {/* Median Price per Sq Foot */}
+      <Grid item xs={12} sm={6}>
         <Card>
           <CardContent>
             <Typography variant="h5" component="div">
@@ -76,44 +131,23 @@ const DataDisplay = ({
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <CardContent>
-            <Typography variant="h5" component="div">
-              Price Data
-            </Typography>
-            <Typography color="textSecondary">Max: {priceData.max}</Typography>
-            <Typography color="textSecondary">
-              Mean: {priceData.mean}
-            </Typography>
-            <Typography color="textSecondary">
-              Median: {priceData.median}
-            </Typography>
-            <Typography color="textSecondary">
-              MidMean: {priceData.midMean}
-            </Typography>
-            <Typography color="textSecondary">Min: {priceData.min}</Typography>
-            <Typography color="textSecondary">
-              Standard Deviation: {priceData.stdDev}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
+
+      {/* Most Active Agents */}
       <Grid item xs={12}>
         <Typography variant="h5" component="div">
           Most Active Agents
         </Typography>
-        {mostActiveAgents.map((agent) => (
-          <Grid item xs={12} sm={6} md={4} key={agent[0]}>
-            <Paper elevation={3} sx={{ padding: 2 }}>
+        <Box display="flex" flexWrap="wrap">
+          {mostActiveAgents.map((agent) => (
+            <Paper elevation={3} sx={{ padding: 2, margin: 1 }} key={agent[0]}>
               <Typography variant="h6">{agent[0]}</Typography>
               <Typography variant="body1">Listings: {agent[1]}</Typography>
               <Link href={agent[2]} target="_blank" rel="noopener noreferrer">
                 View Listing
               </Link>
             </Paper>
-          </Grid>
-        ))}
+          ))}
+        </Box>
       </Grid>
     </Grid>
   );

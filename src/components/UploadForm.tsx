@@ -12,10 +12,12 @@ import {
   Grid,
 } from "@mui/material";
 import { saveAs } from "file-saver";
+import { useParams, useRouter } from "next/navigation";
 
-function UploadForm() {
+function UploadForm({ comps }) {
+  console.log(comps);
   const [refId, setRefId] = useState<string>("");
-  const [comp, setComp] = useState<number | undefined>(undefined);
+  const [comp, setComp] = useState<number | undefined>(comps || undefined);
   const [upperPercent, setUpperPercent] = useState<number | undefined>(
     undefined,
   );
@@ -44,8 +46,8 @@ function UploadForm() {
 
     try {
       const response = await fetch(
-        // "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/xlsx/process",
-        "http://localhost:1337/xlsx/process",
+        "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/xlsx/process",
+        // "http://localhost:1337/xlsx/process",
         {
           method: "POST",
           body: formData,
@@ -83,24 +85,6 @@ function UploadForm() {
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-      {/*<FormControlLabel*/}
-      {/*  control={*/}
-      {/*    <Checkbox*/}
-      {/*      checked={checked}*/}
-      {/*      onChange={handleChange}*/}
-      {/*      name="splitFiles"*/}
-      {/*      color="primary"*/}
-      {/*    />*/}
-      {/*  }*/}
-      {/*  label="Split Files into good and bad offers"*/}
-      {/*/>*/}
-      {/*<Grid xs={6}>*/}
-      {/*  <Typography variant="caption">*/}
-      {/*    Check the box if you want to split into 2 csv files based on your*/}
-      {/*    offer and the last purchase price - if your offer is lower than the*/}
-      {/*    last purchase price, it will be in the bad offers file.*/}
-      {/*  </Typography>*/}
-      {/*</Grid>*/}
       <TextField
         margin="normal"
         required
