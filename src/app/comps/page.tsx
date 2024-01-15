@@ -65,6 +65,8 @@ export default function Comps() {
             {"Redfin Data -> CSV"}
           </Typography>
 
+          <Link href="/howto">How to use this?</Link>
+
           <Grid xs={12} item>
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
