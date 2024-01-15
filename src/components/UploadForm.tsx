@@ -15,7 +15,6 @@ import { saveAs } from "file-saver";
 import { useParams, useRouter } from "next/navigation";
 
 function UploadForm({ comps }) {
-  console.log(comps);
   const [refId, setRefId] = useState<string>("");
   const [comp, setComp] = useState<number | undefined>(comps || undefined);
   const [upperPercent, setUpperPercent] = useState<number | undefined>(
@@ -46,8 +45,8 @@ function UploadForm({ comps }) {
 
     try {
       const response = await fetch(
-        "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/xlsx/process",
-        // "http://localhost:1337/xlsx/process",
+        // "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/xlsx/process",
+        "http://localhost:1337/xlsx/process",
         {
           method: "POST",
           body: formData,
@@ -89,7 +88,7 @@ function UploadForm({ comps }) {
         margin="normal"
         required
         fullWidth
-        label="Price Comparable"
+        label="Price Per Sq Ft Comparable"
         type="number"
         autoFocus
         value={comp}

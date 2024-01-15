@@ -72,12 +72,6 @@ const DataDisplay = ({
             </Typography>
             <Typography color="textSecondary">
               MidMean: {formatPrice(priceData.midMean)}
-              <Button
-                variant="outlined"
-                onClick={() => handleUseAsComp(priceData.midMean)}
-              >
-                Use as Comp
-              </Button>
             </Typography>
             <Typography color="textSecondary">
               Min: {formatPrice(priceData.min)}
@@ -127,6 +121,12 @@ const DataDisplay = ({
             </Typography>
             <Typography color="textSecondary">
               {medianPricePerSqFoot}
+              <Button
+                variant="outlined"
+                onClick={() => handleUseAsComp(medianPricePerSqFoot)}
+              >
+                Use as Comp
+              </Button>
             </Typography>
           </CardContent>
         </Card>

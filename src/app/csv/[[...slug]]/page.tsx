@@ -20,7 +20,7 @@ export default function CSV({ params }: { params: { slug: string } }) {
             {"XLSX -> CSV"}
           </Typography>
           <Typography>
-            Add your comps and the upper and lower percent
+            Add your comp price per sq foot and the upper and lower percent
           </Typography>
 
           <Grid xs={12} md={6} item>
