@@ -37,7 +37,13 @@ const LandingPage = () => {
 
           <Grid container spacing={3} justifyContent="center">
             <Grid item xs={12} sm={6} md={4}>
-              <Card onClick={() => handleNavigate("/xlsx")}>
+              <Card
+                onClick={() => handleNavigate("/xlsx")}
+                sx={{
+                  minHeight: 150,
+                  textAlign: "center",
+                }}
+              >
                 <CardActionArea>
                   <CardHeader title="XLSX -> CSV" />
                   <CardContent>
@@ -49,7 +55,13 @@ const LandingPage = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <Card onClick={() => handleNavigate("/comps")}>
+              <Card
+                onClick={() => handleNavigate("/comps")}
+                sx={{
+                  minHeight: 150,
+                  textAlign: "center",
+                }}
+              >
                 <CardActionArea>
                   <CardHeader title="Redfin Comps" />
                   <CardContent>
