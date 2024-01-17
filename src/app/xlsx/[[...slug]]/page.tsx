@@ -2,6 +2,7 @@
 import UploadForm from "@/components/UploadForm";
 import { Container, Grid, Link, Typography } from "@mui/material";
 import Layout from "@/components/Layout";
+import DataTable from "@/components/DataTable";
 
 export default function CSV({ params }: { params: { slug: string } }) {
   console.log(params);
@@ -26,14 +27,9 @@ export default function CSV({ params }: { params: { slug: string } }) {
           <Grid xs={12} md={6} item>
             <UploadForm comps={params.slug || ""} />
           </Grid>
-
-          {/*<Grid>*/}
-          {/*  <Link href="/comps">*/}
-          {/*    <a>Need Comps? Try this...</a>*/}
-          {/*  </Link>*/}
-          {/*</Grid>*/}
         </Grid>
       </Container>
+      <DataTable />
     </Layout>
   );
 }

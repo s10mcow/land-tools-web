@@ -13,16 +13,17 @@ import {
 } from "@mui/material";
 import { saveAs } from "file-saver";
 import { useParams, useRouter } from "next/navigation";
+import { useSetRecoilState } from "recoil";
+import { csvDataAtom, dataAtom } from "@/services/csv";
 
 function UploadForm({ comps }) {
+  const navigation = useRouter();
+  const setRowData = useSetRecoilState(dataAtom);
+  const setCSVData = useSetRecoilState(csvDataAtom);
   const [refId, setRefId] = useState<string>("");
   const [comp, setComp] = useState<number | undefined>(comps || undefined);
-  const [upperPercent, setUpperPercent] = useState<number | undefined>(
-    undefined,
-  );
-  const [lowerPercent, setLowerPercent] = useState<number | undefined>(
-    undefined,
-  );
+  const [upperPercent, setUpperPercent] = useState<number | undefined>(80);
+  const [lowerPercent, setLowerPercent] = useState<number | undefined>(60);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [checked, setChecked] = useState(false);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -58,15 +59,13 @@ function UploadForm({ comps }) {
       }
 
       const result = await response.json();
-      const usBlob = new Blob([result.usOffers], {
-        type: "text/csv;charset=utf-8",
+      setRowData(result.data);
+      setCSVData({
+        us: result.us,
+        nonUs: result.nonUs,
+        combined: result.combined,
       });
-      saveAs(usBlob, "US-Offers.csv");
-
-      const nonBlob = new Blob([result.nonUsOffers], {
-        type: "text/csv;charset=utf-8",
-      });
-      saveAs(nonBlob, "Non-US-Offers.csv");
+      window.scrollTo({ top: 9999, behavior: "smooth" });
 
       // Handle the response data here
     } catch (error) {
@@ -99,7 +98,7 @@ function UploadForm({ comps }) {
         margin="normal"
         required
         fullWidth
-        label="Upper Percent (0-100)"
+        label="Upper Bound (Cents on the dollar)"
         type="number"
         value={upperPercent}
         onChange={(e) => setUpperPercent(Number(e.target.value))}
@@ -108,7 +107,7 @@ function UploadForm({ comps }) {
         margin="normal"
         required
         fullWidth
-        label="Lower Percent (0-100)"
+        label="Lower Bound (Cents on the dollar)"
         type="number"
         value={lowerPercent}
         onChange={(e) => setLowerPercent(Number(e.target.value))}

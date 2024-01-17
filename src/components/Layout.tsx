@@ -25,7 +25,7 @@ const Layout = ({ children }: LayoutProps) => {
           </Link>
         </Toolbar>
       </AppBar>
-      <Container>{children}</Container>
+      <>{children}</>
     </>
   );
 };
