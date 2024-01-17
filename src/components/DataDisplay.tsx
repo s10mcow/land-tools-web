@@ -49,7 +49,7 @@ const DataDisplay = ({
 
   const handleUseAsComp = (value) => {
     // Modify the URL as needed, e.g., /new-page?value=value
-    router.push(`/csv/${value}`);
+    router.push(`/xlsx/${value}`);
   };
 
   return (
