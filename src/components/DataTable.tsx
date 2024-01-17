@@ -137,7 +137,7 @@ export default function DataView() {
     <Grid container flexDirection={"column"}>
       <Grid item>
         <DataGrid
-          isLoading={rows.length === 0}
+          loading={Boolean(rows.length === 0)}
           sx={{ height: "90vh" }}
           rows={rows}
           columns={columns}
