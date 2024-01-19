@@ -20,11 +20,11 @@ export default function Comps() {
   const [data, setData] = useState<DataDisplayProps | null>(null);
   async function handleSubmit(event) {
     event.preventDefault();
-    setUrl(null);
+
     try {
       const response = await fetch(
-        "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/comps/generate",
-        // "http://localhost:1337/comps/generate",
+        // "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/comps/generate",
+        "http://localhost:1337/comps/generate",
         {
           method: "POST",
           headers: {
