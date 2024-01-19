@@ -40,9 +40,9 @@ export default function Comps() {
 
       const result = await response.json();
       const blob = new Blob([result.csv], {
-        type: "text/xlsx;charset=utf-8",
+        type: "text/csv;charset=utf-8",
       });
-      saveAs(blob, "comps.xlsx");
+      saveAs(blob, "comps.csv");
       console.log(result.data.homes);
       setData(result.data);
     } catch (err) {
