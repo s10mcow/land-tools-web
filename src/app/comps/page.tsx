@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { saveAs } from "file-saver";
-import DataDisplay, { DataDisplayProps } from "@/components/DataDisplay";
+import DataDisplay, { DataDisplayProps } from "@/components/comps/DataDisplay";
 import Layout from "@/components/Layout";
 ("www.redfin.com/stingray/api/gis?al");
 export default function Comps() {
@@ -23,8 +23,8 @@ export default function Comps() {
     setUrl(null);
     try {
       const response = await fetch(
-        "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/comps/generate",
-        // "http://localhost:1337/comps/generate",
+        // "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/comps/generate",
+        "http://localhost:1337/comps/generate",
         {
           method: "POST",
           headers: {
