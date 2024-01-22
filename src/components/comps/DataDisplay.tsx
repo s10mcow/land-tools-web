@@ -96,7 +96,7 @@ export interface DataDisplayProps {
       priceData: itemData;
     };
   };
-  mostActiveAgents: Array<[string, number, string]>;
+  mostActiveAgents: Array<[string, number, string[]]>;
 }
 
 const columns = [
@@ -183,94 +183,121 @@ const DataDisplay = ({
     <Container>
       <Grid container mb={10} mt={3}>
         <Grid item xs={12}>
-          <Typography variant="h4">Overall Most Active Agents</Typography>
-          <Box display="flex" flexWrap="wrap" mt={2}>
-            {mostActiveAgents.map((agent) => (
-              <Paper
-                elevation={3}
-                sx={{ padding: 2, margin: 1 }}
-                key={agent[0]}
-              >
-                <Typography variant="h6">{agent[0]}</Typography>
-                <Typography variant="body1">Listings: {agent[1]}</Typography>
-                <Link href={agent[2]} target="_blank" rel="noopener noreferrer">
-                  View Listing
-                </Link>
-              </Paper>
-            ))}
-          </Box>
+          <Grid item>
+            <Typography variant="h4" gutterBottom>
+              Agents Data
+            </Typography>
+          </Grid>
+          <Accordion>
+            <AccordionSummary>
+              <Typography variant="h5">Most Active Agents</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Box display="flex" flexWrap="wrap" mt={2}>
+                <Grid container spacing={2}>
+                  {mostActiveAgents.map((agent) => (
+                    <Grid item key={agent[0]}>
+                      <Card>
+                        <CardContent>
+                          <Typography variant="h6">{agent[0]}</Typography>
+                          <Typography variant="body1">
+                            Listings: {agent[1]}
+                          </Typography>
+                          {agent[2].map((url) => (
+                            <Box key={url}>
+                              <Link
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                View Listing
+                              </Link>
+                            </Box>
+                          ))}
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
         </Grid>
         <Grid container spacing={2} mt={3}>
           <Grid item>
             <Typography variant="h4">Listings Data by Lot Size</Typography>
           </Grid>
-          {Object.keys(organizedData).map((key) => (
-            <Grid item xs={12} key={key}>
-              <Accordion>
-                <AccordionSummary>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      flex: 1,
-                    }}
-                  >
-                    <Typography variant={"h5"}>{keyToTitle[key]}</Typography>
+          {Object.keys(organizedData)
+            .filter((key) => organizedData[key].data.length > 0)
+            .map((key) => (
+              <Grid item xs={12} key={key}>
+                <Accordion>
+                  <AccordionSummary>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        flex: 1,
+                      }}
+                    >
+                      <Typography variant={"h5"}>{keyToTitle[key]}</Typography>
 
-                    <Typography variant={"h5"}>
-                      {organizedData[key].data.length} Listings
-                    </Typography>
-                  </Box>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {organizedData[key].data.length === 0 ? (
-                    <Typography variant="body1">
-                      No listings in this category
-                    </Typography>
-                  ) : (
-                    <>
-                      <Grid container spacing={2}>
-                        <Grid item>
-                          <PriceCard priceData={organizedData[key].priceData} />
+                      <Typography variant={"h5"}>
+                        {organizedData[key].data.length} Listings
+                      </Typography>
+                    </Box>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    {organizedData[key].data.length === 0 ? (
+                      <Typography variant="body1">
+                        No listings in this category
+                      </Typography>
+                    ) : (
+                      <>
+                        <Grid container spacing={2}>
+                          <Grid item>
+                            <PriceCard
+                              priceData={organizedData[key].priceData}
+                            />
+                          </Grid>
+                          <Grid item>
+                            <LotSizeCard
+                              lotSizeData={organizedData[key].lotSizeData}
+                            />
+                          </Grid>
+                          <Grid item>
+                            <MedianSqFtPriceCard
+                              medianPricePerSqFoot={
+                                organizedData[key].medianPricePerSqFoot
+                              }
+                            />
+                          </Grid>
+                          <Grid item>
+                            <MostActiveAgentsCard
+                              mostActiveAgents={
+                                organizedData[key].mostActiveAgents
+                              }
+                            />
+                          </Grid>
                         </Grid>
-                        <Grid item>
-                          <LotSizeCard
-                            lotSizeData={organizedData[key].lotSizeData}
-                          />
-                        </Grid>
-                        <Grid item>
-                          <MedianSqFtPriceCard
-                            medianPricePerSqFoot={
-                              organizedData[key].medianPricePerSqFoot
-                            }
-                          />
-                        </Grid>
-                        <Grid item>
-                          <MostActiveAgentsCard
-                            mostActiveAgents={
-                              organizedData[key].mostActiveAgents
-                            }
-                          />
-                        </Grid>
-                      </Grid>
-                      <Accordion>
-                        <AccordionSummary>
-                          <Typography variant="h5">Listings</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <DataGrid
-                            rows={organizedData[key].data}
-                            columns={columns}
-                            getRowId={(row) => row.price}
-                          />
-                        </AccordionDetails>
-                      </Accordion>
-                    </>
-                  )}
-                </AccordionDetails>
-              </Accordion>
-            </Grid>
-          ))}
+                        <Accordion>
+                          <AccordionSummary>
+                            <Typography variant="h5">Listings</Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            <DataGrid
+                              rows={organizedData[key].data}
+                              columns={columns}
+                              getRowId={(row) => row.price}
+                            />
+                          </AccordionDetails>
+                        </Accordion>
+                      </>
+                    )}
+                  </AccordionDetails>
+                </Accordion>
+              </Grid>
+            ))}
         </Grid>
       </Grid>
     </Container>

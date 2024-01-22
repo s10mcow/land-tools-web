@@ -5,7 +5,6 @@ import Layout from "@/components/Layout";
 import DataTable from "@/components/DataTable";
 
 export default function CSV({ params }: { params: { slug: string } }) {
-  console.log(params);
   return (
     <Layout>
       <Container style={{ height: "100vh" }}>

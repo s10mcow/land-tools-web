@@ -14,18 +14,18 @@ export const MedianSqFtPriceCard = ({ medianPricePerSqFoot }) => {
   return (
     <Card>
       <CardContent>
-        <Typography variant="h5" component="div">
-          Median Price per Sq Foot
+        <Typography variant="h5" gutterBottom>
+          Median Price
         </Typography>
-        <Typography color="textSecondary">
-          {medianPricePerSqFoot}
-          <Button
-            variant="outlined"
-            onClick={() => handleUseAsComp(medianPricePerSqFoot)}
-          >
-            Use as Comp
-          </Button>
+        <Typography color="textSecondary" gutterBottom>
+          {`$${medianPricePerSqFoot.toFixed(2)} / sqft`}
         </Typography>
+        <Button
+          variant="outlined"
+          onClick={() => handleUseAsComp(medianPricePerSqFoot)}
+        >
+          Use as Comp
+        </Button>
       </CardContent>
     </Card>
   );

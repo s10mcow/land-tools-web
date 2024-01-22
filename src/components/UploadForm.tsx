@@ -46,8 +46,8 @@ function UploadForm({ comps }) {
 
     try {
       const response = await fetch(
-        "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/xlsx/process",
-        // "http://localhost:1337/xlsx/process",
+        // "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/xlsx/process",
+        "http://localhost:1337/xlsx/process",
         {
           method: "POST",
           body: formData,

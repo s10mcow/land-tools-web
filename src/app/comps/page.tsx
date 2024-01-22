@@ -23,8 +23,8 @@ export default function Comps() {
 
     try {
       const response = await fetch(
-        "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/comps/generate",
-        // "http://localhost:1337/comps/generate",
+        // "https://w0lg4rzm60.execute-api.us-east-1.amazonaws.com/dev/comps/generate",
+        "http://localhost:1337/comps/generate",
         {
           method: "POST",
           headers: {
