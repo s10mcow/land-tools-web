@@ -2,6 +2,7 @@ import { Button, Card, CardContent, Typography } from "@mui/material";
 import React from "react";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const MedianSqFtPriceCard = ({ medianPricePerSqFoot }) => {
   const router = useRouter();
@@ -20,12 +21,9 @@ export const MedianSqFtPriceCard = ({ medianPricePerSqFoot }) => {
         <Typography color="textSecondary" gutterBottom>
           {`$${medianPricePerSqFoot.toFixed(2)} / sqft`}
         </Typography>
-        <Button
-          variant="outlined"
-          onClick={() => handleUseAsComp(medianPricePerSqFoot)}
-        >
-          Use as Comp
-        </Button>
+        <Link href={`/xlsx/${medianPricePerSqFoot}`} target={"_blank"}>
+          <Button variant={"outlined"}>Use as Comp</Button>
+        </Link>
       </CardContent>
     </Card>
   );
