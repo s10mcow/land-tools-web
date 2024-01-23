@@ -5,5 +5,7 @@ type AppConfig = {
 const useLocalApi = false;
 
 export const appConfig: AppConfig = {
-  apiBaseUrl: useLocalApi ? process.env.LOCAL_API_URL : process.env.API_URL,
+  apiBaseUrl: useLocalApi
+    ? "http://localhost:1337"
+    : process.env.NEXT_PUBLIC_API_URL,
 };
