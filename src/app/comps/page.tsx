@@ -14,7 +14,9 @@ import { useState } from "react";
 import { saveAs } from "file-saver";
 import DataDisplay, { DataDisplayProps } from "@/components/comps/DataDisplay";
 import Layout from "@/components/Layout";
-("www.redfin.com/stingray/api/gis?al");
+import { appConfig } from "@/services/AppConfig";
+
+const { apiBaseUrl } = appConfig;
 export default function Comps() {
   const [url, setUrl] = useState<string>("");
   const [data, setData] = useState<DataDisplayProps | null>(null);
@@ -22,17 +24,13 @@ export default function Comps() {
     event.preventDefault();
 
     try {
-      const response = await fetch(
-        "https://pcpd8v3hr1.execute-api.us-east-1.amazonaws.com/dev/comps/generate",
-        // "http://localhost:1337/comps/generate",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ url }),
+      const response = await fetch(`${apiBaseUrl}/comps/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ url }),
+      });
 
       if (!response.ok) {
         throw new Error(response.statusText);

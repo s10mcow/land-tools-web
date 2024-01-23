@@ -15,6 +15,8 @@ import { saveAs } from "file-saver";
 import { useParams, useRouter } from "next/navigation";
 import { useSetRecoilState } from "recoil";
 import { csvDataAtom, dataAtom } from "@/services/csv";
+import { appConfig } from "@/services/AppConfig";
+const { apiBaseUrl } = appConfig;
 
 function UploadForm({ comps }) {
   const navigation = useRouter();
@@ -45,14 +47,10 @@ function UploadForm({ comps }) {
     formData.append("refId", refId?.toString());
 
     try {
-      const response = await fetch(
-        "https://pcpd8v3hr1.execute-api.us-east-1.amazonaws.com/dev/xlsx/process",
-        // "http://localhost:1337/xlsx/process",
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      const response = await fetch(`${apiBaseUrl}/xlsx/process`, {
+        method: "POST",
+        body: formData,
+      });
 
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
