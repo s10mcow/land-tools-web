@@ -1,52 +1,48 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Link,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useState } from "react";
-import { saveAs } from "file-saver";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { Container, Grid, Link, Typography } from "@mui/material";
 import DataDisplay, { DataDisplayProps } from "@/components/comps/DataDisplay";
 import Layout from "@/components/Layout";
-import { appConfig } from "@/services/AppConfig";
+import { generateComps } from "@/services/api";
+import { saveAs } from "file-saver";
+import { CompForm } from "@/components/CompForm";
 
-const { apiBaseUrl } = appConfig;
+const schema = yup
+  .object({
+    dataString: yup.string().required("Data is required"),
+  })
+  .required();
+
+export type formValues = yup.InferType<typeof schema>;
+
 export default function Comps() {
-  const [url, setUrl] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
   const [data, setData] = useState<DataDisplayProps | null>(null);
-  async function handleSubmit(event) {
-    event.preventDefault();
 
+  const onSubmit = async (formData: formValues) => {
     try {
-      const response = await fetch(`${apiBaseUrl}/comps/generate`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ url }),
-      });
+      const result = await generateComps(formData.dataString);
 
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      const result = await response.json();
       const blob = new Blob([result.csv], {
         type: "text/csv;charset=utf-8",
       });
       saveAs(blob, "comps.csv");
-      console.log(result.data.homes);
       setData(result.data);
     } catch (err) {
-      console.log(err);
+      console.error("Error handling submission:", err);
     }
-  }
+  };
 
   return (
     <Layout>
@@ -66,26 +62,11 @@ export default function Comps() {
           <Link href="/howto">How to use this?</Link>
 
           <Grid xs={12} item>
-            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                multiline
-                rows={5}
-                label="Data"
-                type="text"
-                autoFocus
-                value={url}
-                onChange={(e) => {
-                  setUrl(e.target.value);
-                }}
-              />
-
-              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                Submit
-              </Button>
-            </Box>
+            <CompForm
+              handleSubmit={handleSubmit(onSubmit)}
+              errors={errors}
+              register={register}
+            />
           </Grid>
 
           {data && <DataDisplay {...data} />}

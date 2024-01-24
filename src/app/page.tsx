@@ -38,13 +38,12 @@ const LandingPage = () => {
           <Grid container spacing={3} justifyContent="center">
             <Grid item xs={12} sm={6} md={4}>
               <Card
-                onClick={() => handleNavigate("/xlsx")}
                 sx={{
                   minHeight: 150,
                   textAlign: "center",
                 }}
               >
-                <CardActionArea>
+                <CardActionArea onClick={() => handleNavigate("/xlsx")}>
                   <CardHeader title="XLSX -> CSV" />
                   <CardContent>
                     <Typography variant="body2" color="textSecondary">

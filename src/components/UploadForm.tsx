@@ -1,62 +1,58 @@
 "use client";
 
-import React, { ChangeEvent, SyntheticEvent, useState } from "react";
-import {
-  TextField,
-  Button,
-  Box,
-  Divider,
-  Typography,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-} from "@mui/material";
-import { saveAs } from "file-saver";
-import { useParams, useRouter } from "next/navigation";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { Box, Button, Divider, TextField, Typography } from "@mui/material";
 import { useSetRecoilState } from "recoil";
 import { csvDataAtom, dataAtom } from "@/services/csv";
-import { appConfig } from "@/services/AppConfig";
-const { apiBaseUrl } = appConfig;
+import { processFile } from "@/services/api";
 
 function UploadForm({ comps }) {
-  const navigation = useRouter();
   const setRowData = useSetRecoilState(dataAtom);
   const setCSVData = useSetRecoilState(csvDataAtom);
-  const [refId, setRefId] = useState<string>("");
-  const [comp, setComp] = useState<number | undefined>(comps || undefined);
-  const [upperPercent, setUpperPercent] = useState<number | undefined>(80);
-  const [lowerPercent, setLowerPercent] = useState<number | undefined>(60);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [checked, setChecked] = useState(false);
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-  };
-  const handleSubmit = async (event: SyntheticEvent) => {
-    event.preventDefault();
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
 
-    if (!selectedFile || !comp || !upperPercent || !lowerPercent || !refId) {
+  const schema = yup
+    .object({
+      comp: yup.string().required(),
+      upperPercent: yup.number().required(),
+      lowerPercent: yup.number().required(),
+      refId: yup.string().required(),
+    })
+    .required();
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      comp: comps,
+      upperPercent: 80,
+      lowerPercent: 60,
+      refId: "ref",
+    },
+  });
+
+  const onSubmit = async (data) => {
+    if (!selectedFile) {
       alert("Please select a file first!");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("comps", comp?.toString());
-    formData.append("upperPercent", upperPercent?.toString());
-    formData.append("lowerPercent", lowerPercent?.toString());
-    formData.append("refId", refId?.toString());
-
     try {
-      const response = await fetch(`${apiBaseUrl}/xlsx/process`, {
-        method: "POST",
-        body: formData,
+      const result = await processFile({
+        selectedFile,
+        comp: data.comp,
+        upperPercent: data.upperPercent,
+        lowerPercent: data.lowerPercent,
+        refId: data.refId,
       });
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
-
-      const result = await response.json();
       setRowData(result.data);
       setCSVData({
         us: result.us,
@@ -64,60 +60,59 @@ function UploadForm({ comps }) {
         combined: result.combined,
       });
       window.scrollTo({ top: 9999, behavior: "smooth" });
-
-      // Handle the response data here
     } catch (error) {
-      console.error("Error uploading file:", error);
+      console.error("Error processing file:", error);
     }
   };
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event) => {
     const file = event.target.files && event.target.files[0];
-
     if (file) {
       setSelectedFile(file);
     }
   };
-
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
       <TextField
+        {...register("comp")}
+        error={!!errors.comp}
+        helperText={errors.comp?.message}
         margin="normal"
         required
         fullWidth
         label="Price Per Sq Ft Comparable"
-        type="number"
         autoFocus
-        value={comp}
-        onChange={(e) => setComp(Number(e.target.value))}
       />
 
       <TextField
+        {...register("upperPercent")}
+        error={!!errors.upperPercent}
+        helperText={errors.upperPercent?.message}
         margin="normal"
         required
         fullWidth
         label="Upper Bound (Cents on the dollar)"
         type="number"
-        value={upperPercent}
-        onChange={(e) => setUpperPercent(Number(e.target.value))}
       />
       <TextField
+        {...register("lowerPercent")}
+        error={!!errors.lowerPercent}
+        helperText={errors.lowerPercent?.message}
         margin="normal"
         required
         fullWidth
         label="Lower Bound (Cents on the dollar)"
         type="number"
-        value={lowerPercent}
-        onChange={(e) => setLowerPercent(Number(e.target.value))}
       />
       <TextField
+        {...register("refId")}
+        error={!!errors.refId}
+        helperText={errors.refId?.message}
         margin="normal"
         required
         fullWidth
         label="Reference Id for mailer"
         type="text"
-        value={refId}
-        onChange={(e) => setRefId(e.target.value)}
       />
       <input
         accept=".xlsx, .xls"

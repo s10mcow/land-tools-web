@@ -2,7 +2,7 @@ type AppConfig = {
   apiBaseUrl: string;
 };
 
-const useLocalApi = false;
+const useLocalApi = true;
 
 export const appConfig: AppConfig = {
   apiBaseUrl: useLocalApi
