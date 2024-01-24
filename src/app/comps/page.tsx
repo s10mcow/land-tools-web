@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Container, Grid, Link, Typography } from "@mui/material";
+import { Button, Container, Grid, Link, Typography } from "@mui/material";
 import DataDisplay, { DataDisplayProps } from "@/components/comps/DataDisplay";
 import Layout from "@/components/Layout";
 import { generateComps } from "@/services/api";
@@ -29,19 +29,26 @@ export default function Comps() {
   });
 
   const [data, setData] = useState<DataDisplayProps | null>(null);
-
+  const [csvData, setCSVData] = useState<string | null>(null);
   const onSubmit = async (formData: formValues) => {
     try {
       const result = await generateComps(formData.dataString);
 
-      const blob = new Blob([result.csv], {
-        type: "text/csv;charset=utf-8",
-      });
-      saveAs(blob, "comps.csv");
+      setCSVData(result.csv);
       setData(result.data);
     } catch (err) {
       console.error("Error handling submission:", err);
     }
+  };
+
+  const downloadCSV = () => {
+    if (!csvData) {
+      alert("No CSV data found!");
+      return;
+    }
+
+    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8" });
+    saveAs(blob, "comps.csv");
   };
 
   return (
@@ -69,7 +76,22 @@ export default function Comps() {
             />
           </Grid>
 
-          {data && <DataDisplay {...data} />}
+          {data && (
+            <Container>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <Typography variant="h4" gutterBottom>
+                    CSV Data
+                  </Typography>
+
+                  <Button variant={"contained"} onClick={downloadCSV}>
+                    Download Data in CSV
+                  </Button>
+                </Grid>
+                <DataDisplay {...data} />
+              </Grid>
+            </Container>
+          )}
         </Grid>
       </Container>
     </Layout>

@@ -180,49 +180,49 @@ const DataDisplay = ({
   mostActiveAgents,
 }: DataDisplayProps) => {
   return (
-    <Container>
-      <Grid container mb={10} mt={3}>
-        <Grid item xs={12}>
-          <Grid item>
-            <Typography variant="h4" gutterBottom>
-              Agents Data
-            </Typography>
-          </Grid>
-          <Accordion>
-            <AccordionSummary>
-              <Typography variant="h5">Most Active Agents</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Box display="flex" flexWrap="wrap" mt={2}>
-                <Grid container spacing={2}>
-                  {mostActiveAgents.map((agent) => (
-                    <Grid item key={agent[0]}>
-                      <Card>
-                        <CardContent>
-                          <Typography variant="h6">{agent[0]}</Typography>
-                          <Typography variant="body1">
-                            Listings: {agent[1]}
-                          </Typography>
-                          {agent[2].map((url) => (
-                            <Box key={url}>
-                              <Link
-                                href={url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                View Listing
-                              </Link>
-                            </Box>
-                          ))}
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
-            </AccordionDetails>
-          </Accordion>
+    <>
+      <Grid item xs={12}>
+        <Grid item>
+          <Typography variant="h4" gutterBottom>
+            Agents Data
+          </Typography>
         </Grid>
+        <Accordion>
+          <AccordionSummary>
+            <Typography variant="h5">Most Active Agents</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Box display="flex" flexWrap="wrap" mt={2}>
+              <Grid container spacing={2}>
+                {mostActiveAgents.map((agent) => (
+                  <Grid item key={agent[0]}>
+                    <Card>
+                      <CardContent>
+                        <Typography variant="h6">{agent[0]}</Typography>
+                        <Typography variant="body1">
+                          Listings: {agent[1]}
+                        </Typography>
+                        {agent[2].map((url) => (
+                          <Box key={url}>
+                            <Link
+                              href={url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              View Listing
+                            </Link>
+                          </Box>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </AccordionDetails>
+        </Accordion>
+      </Grid>
+      <Grid item xs={12}>
         <Grid container spacing={2} mt={3}>
           <Grid item>
             <Typography variant="h4">Listings Data by Lot Size</Typography>
@@ -300,7 +300,7 @@ const DataDisplay = ({
             ))}
         </Grid>
       </Grid>
-    </Container>
+    </>
   );
 };
 
