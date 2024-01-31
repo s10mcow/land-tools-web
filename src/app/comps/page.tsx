@@ -83,7 +83,6 @@ export default function Comps() {
                   <Typography variant="h4" gutterBottom>
                     CSV Data
                   </Typography>
-
                   <Button variant={"contained"} onClick={downloadCSV}>
                     Download Data in CSV
                   </Button>
