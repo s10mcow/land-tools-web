@@ -5,6 +5,7 @@ import { CreateUserValues } from "@/components/Authentication/CreateUserModal";
 import { ForgotPasswordValues } from "@/components/Authentication/ForgotPasswordModal";
 import { setRecoil } from "recoil-nexus";
 import { loadingAtom } from "@/services/loading";
+import { useMutation } from "@tanstack/react-query";
 
 export const authenticationStateAtom = atom<
   "signIn" | "signUp" | "forgotPassword" | ""
@@ -22,6 +23,13 @@ export const authenticatedAtom = atom<boolean>({
   key: "authenticated",
   default: false,
 });
+
+export function useAuthenticationMutation() {
+  return useMutation({
+    mutationFn: authenticate,
+    mutationKey: ["authenticate"],
+  });
+}
 
 export const authenticate = async () => {
   try {
