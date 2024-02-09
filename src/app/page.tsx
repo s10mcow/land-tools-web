@@ -30,7 +30,7 @@ const LandingPage = () => {
         justifyContent="center"
       >
         <Typography variant="h2" align="center" gutterBottom>
-          We've moved!
+          {"We've moved!"}
         </Typography>
 
         <Link href={"https://land-bridge-web.vercel.app/"}>New Home</Link>
