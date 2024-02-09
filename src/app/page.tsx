@@ -9,6 +9,7 @@ import {
   Typography,
   Container,
   CardHeader,
+  Link,
 } from "@mui/material";
 import Layout from "@/components/Layout";
 
@@ -20,61 +21,21 @@ const LandingPage = () => {
   };
 
   return (
-    <Layout>
-      <Container
-        sx={{ height: "100vh", display: "flex", alignItems: "center" }}
+    <Container sx={{ height: "100vh", display: "flex", alignItems: "center" }}>
+      <Grid
+        container
+        spacing={3}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
       >
-        <Grid
-          container
-          spacing={3}
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Typography variant="h2" align="center" gutterBottom>
-            Comps or CSV?
-          </Typography>
+        <Typography variant="h2" align="center" gutterBottom>
+          We've moved!
+        </Typography>
 
-          <Grid container spacing={3} justifyContent="center">
-            <Grid item xs={12} sm={6} md={4}>
-              <Card
-                sx={{
-                  minHeight: 150,
-                  textAlign: "center",
-                }}
-              >
-                <CardActionArea onClick={() => handleNavigate("/xlsx")}>
-                  <CardHeader title="XLSX -> CSV" />
-                  <CardContent>
-                    <Typography variant="body2" color="textSecondary">
-                      Have an XLSX file from Propstream? Convert it to CSV.
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Card
-                onClick={() => handleNavigate("/comps")}
-                sx={{
-                  minHeight: 150,
-                  textAlign: "center",
-                }}
-              >
-                <CardActionArea>
-                  <CardHeader title="Redfin Comps" />
-                  <CardContent>
-                    <Typography variant="body2" color="textSecondary">
-                      Generate comps from Redfin.
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Container>
-    </Layout>
+        <Link href={"https://land-bridge-web.vercel.app/"}>New Home</Link>
+      </Grid>
+    </Container>
   );
 };
 
